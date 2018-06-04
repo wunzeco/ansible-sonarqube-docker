@@ -1,0 +1,44 @@
+---
+
+- include_vars: "{{ ansible_os_family|lower }}.yml"
+
+- name: Create sonarqube docker work directory
+  file:
+    path: "{{ sonarqube_docker_work_dir }}"
+    mode: 0755
+    state: directory
+
+- name: Copy sonarqube docker docker-compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ sonarqube_docker_work_dir }}/docker-compose.yml"
+    mode: 0644
+  notify: "Restart sonarqube-postgres stack"
+
+- name: Copy sonarqube docker upstart script
+  template:
+    src: sonarqube.upstart.conf.j2
+    dest: /etc/init/sonarqube.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_service_mgr == 'upstart'
+  notify: "Restart sonarqube-postgres stack"
+
+- name: Copy sonarqube docker systemd service script
+  template:
+    src: sonarqube.service.j2
+    dest: "{{ sonarqube_docker_systemd_units_dir }}/sonarqube.service"
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_service_mgr == 'systemd'
+  notify:
+    - Reload systemd
+    - Restart sonarqube-postgres stack
+
+- name: Start sonarqube-postgres stack
+  service:
+    name: sonarqube
+    enabled: yes
+    state: started

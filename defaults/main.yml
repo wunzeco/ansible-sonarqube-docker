@@ -1,0 +1,9 @@
+---
+
+sonarqube_docker_work_dir:  "/opt/sonarqube"
+
+sonarqube_docker_postgres_user: sonar
+sonarqube_docker_postgres_password: sonar
+
+sonarqube_docker_sonarqube_version: 6.7.4
+sonarqube_docker_postgres_version:  10.4

@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: "Ogonna Iwunze"
+  company: None
+  license: BSD
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+  categories:
+    - code quality
+    - continuous integration
+dependencies: []

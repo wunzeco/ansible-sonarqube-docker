@@ -1,0 +1,22 @@
+description "Sonarqube Docker Stack"
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+respawn
+respawn limit 5 10
+
+pre-start script
+    /usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml stop || true
+    /usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml rm -f || true
+end script
+
+script
+    exec /usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml -p sonarqube --log-level WARNING up
+end script
+
+pre-stop script
+    /usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml stop || true
+    /usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml rm -f || true
+end script
+

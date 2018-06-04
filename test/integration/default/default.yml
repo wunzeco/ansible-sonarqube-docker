@@ -1,0 +1,14 @@
+---
+- name: Sonarqube Play
+  hosts: test-kitchen
+
+  vars:
+    docker_package_version: '*'
+
+  roles:
+    - wunzeco.docker
+    - ansible-sonarqube-docker
+
+  post_tasks:
+    - name: Wait for sonarqube port 9000
+      wait_for: port=9000

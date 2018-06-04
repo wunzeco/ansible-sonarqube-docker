@@ -1,0 +1,15 @@
+[Unit]
+Description=Sonarqube Docker Stack
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+ExecStartPre=-/usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml stop
+ExecStartPre=-/usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml rm -f
+ExecStart=/usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml -p sonarqube --log-level WARNING up
+ExecStartPost=-/usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml stop
+ExecStartPost=-/usr/local/bin/docker-compose -f {{ sonarqube_docker_work_dir }}/docker-compose.yml rm -f
+
+[Install]
+WantedBy=multi-user.target
