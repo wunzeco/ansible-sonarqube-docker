@@ -3,11 +3,18 @@ sonarqube-docker
 
 Ansible role to install and configure dockerized Sonarqube stack.
 
+## Requirements
+
+- docker engine
+- docker-compose
+
+You may be interested in [wunzeco.docker]
+
 
 ## Example
 
 ```
-- hosts: myhost
+- hosts: mydockerhost
 
   roles:
     - wunzeco.sonarqube-docker
@@ -27,3 +34,4 @@ kitchen test
 
 none
 
+[wunzeco.docker]: https://github.com/wunzeco/ansible-docker
